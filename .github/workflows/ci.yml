@@ -43,5 +43,5 @@ jobs:
           ssh -i ~/.ssh/id_ed25519 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << EOF
             sudo chown -R www-data:www-data ${{ secrets.DEPLOY_PATH }}
             sudo chmod -R 755 ${{ secrets.DEPLOY_PATH }}
-            sudo systemctl restart apache2
+            sudo systemctl restart nginx
           EOF
