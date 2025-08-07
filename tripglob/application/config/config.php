@@ -22,7 +22,7 @@
 | a PHP script and you can easily do that on your own.
 |
 */ //http://".$_SERVER['HTTP_HOST']."/t9x
-$config['base_url'] = "http://tripglob.local/";
+$config['base_url'] = "https://dev-tripglobo.dsocmarket.com/";
 
 
 /*
