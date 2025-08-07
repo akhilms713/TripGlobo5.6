@@ -65,9 +65,9 @@ $route['Flights'] = "home/inner_header/Flights";
 // $route['404_override'] ='error/page_missing';
 
 $host="127.0.0.1";
-$port=3307;
+$port=3306;
 $db_user="root";
-$db_password="root";
+$db_password="rootpass";
 $db="tripglobo_main";
 
 /*$db_user="root";
