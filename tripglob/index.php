@@ -1,5 +1,6 @@
 <?php
 /**
+
  * CodeIgniter
  *
  * An open source application development framework for PHP
@@ -63,6 +64,23 @@
  * Different environments will require different levels of error reporting.
  * By default development will show errors but testing and live will hide them.
  */
+$host="127.0.0.1";
+$port=3306;
+$db_user="root";
+$db_password="rootpass";
+$db="tripglobo_main";
+
+/*$db_user="root";
+$db_password='';
+$db="tripgolobo";*/
+
+
+$conn = mysqli_connect($host, $db_user, $db_password, $db, $port);
+
+if (!$conn) {
+  die("Connection failed: " . mysqli_connect_error());
+}
+exit;
 switch (ENVIRONMENT)
 {
 	case 'development':
