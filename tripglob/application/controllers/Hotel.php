@@ -1,14 +1,12 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-if (session_status() == PHP_SESSION_NONE) {
- // $this->load->library('session');
-}
+if (session_status() == PHP_SESSION_NONE) { session_start(); } 
 error_reporting(0);
 class Hotel extends CI_Controller {
 
 public function __construct() {
         parent::__construct();
 	    $this->load->library('session');
-		$this->load->model('hotel_model');
+		$this->load->model('Hotel_Model');
 		$this->load->model('custom_db');
         $this->load->library('xml_to_array');
         $this->load->helper('hotel/tbo_helper');	

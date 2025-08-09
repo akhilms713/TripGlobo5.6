@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Booking_model extends CI_Model {
+class Booking_Model extends CI_Model {
  
 public function get_xml_log_id($xml_log_id){
 	 

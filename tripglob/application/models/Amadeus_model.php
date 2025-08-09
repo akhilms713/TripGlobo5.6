@@ -1,6 +1,6 @@
 <?php
 
-class Amadeus_model extends CI_Model {
+class Amadeus_Model extends CI_Model {
 
     function __construct() {
         // Call the Model constructor

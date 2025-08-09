@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 if (session_status() == PHP_SESSION_NONE) {
-//	$this->load->library('session');
+    session_start();
 }
 error_reporting(0);
 class User extends CI_Controller {

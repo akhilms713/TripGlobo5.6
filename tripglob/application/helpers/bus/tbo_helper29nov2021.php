@@ -54,9 +54,9 @@
 
         $api_usage = "LIVE";
 
-        // $CI->load->model('General_model');
+        // $CI->load->model('General_Model');         
 
-        // $query = $CI->General_model->get_api($api, $api_usage);
+        // $query = $CI->General_Model->get_api($api, $api_usage);
 
       /*  if ($query->num_rows() == 0) {
 

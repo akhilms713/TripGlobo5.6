@@ -2,22 +2,22 @@
 ob_start();
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 if (session_status() == PHP_SESSION_NONE) {
-//	$this->load->library('session');
+    session_start();
 }
 error_reporting(0);
 //ini_set("display_errors",-1);
 class Booking extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('Cart_model');
-		$this->load->model('Booking_model');
-		$this->load->model('Hotel_model');
-		$this->load->model('Account_model');
-		$this->load->model('Payment_model');
-		$this->load->model('General_model');
-		$this->load->model('Flight_model');
-		$this->load->model('Xml_model');
-		$this->load->model('Bus_model');
+		$this->load->model('cart_model');
+		$this->load->model('booking_model');
+		$this->load->model('hotel_model');
+		$this->load->model('account_model');
+		$this->load->model('payment_model');
+		$this->load->model('general_model');
+		$this->load->model('Flight_Model');
+		$this->load->model('xml_model');
+		$this->load->model('bus_model');
 		$this->load->helper(array(	
 			'file',
 			'flight/amedus_helper'
@@ -244,7 +244,7 @@ class Booking extends CI_Controller {
 		                $data['userInfo'] =$this->general_model->get_user_details($user_id, $user_type);
 						$data['recent_billing'] =$this->booking_model->get_recent_billing_details($user_id, $user_type);
 						if($search_module=='FLIGHT'){
-						    $data['airline_list'] = $this->Flight_model->get_airline_list();
+						    $data['airline_list'] = $this->Flight_Model->get_airline_list();
 						}
 							return $data;
 					}else{
@@ -299,7 +299,7 @@ public function booking_travellers_conn($secdata,$pcode,$pcode_d,$pcode_f,$searc
 						$data['recent_billing'] =$this->booking_model->get_recent_billing_details($user_id, $user_type);
 						// debug($data);exit;
 						if($search_module=='FLIGHT'){
-						    $data['airline_list'] = $this->Flight_model->get_airline_list();
+						    $data['airline_list'] = $this->Flight_Model->get_airline_list();
 						}
 							return $data;
 					}else{
@@ -2877,7 +2877,7 @@ elseif($status_flag=="true"){
                              'booking_status' => $BookingStatus
                         );
                        //  echo $bid;
-                        $this->Flight_model->Update_Booking_Global($bid, $update_booking, 'FLIGHT');
+                        $this->Flight_Model->Update_Booking_Global($bid, $update_booking, 'FLIGHT');
                            $LocatorCode=$update_booking['pnr_no'];
         					}
         					elseif($book_api_name =='TBO'){
@@ -2909,8 +2909,8 @@ elseif($status_flag=="true"){
 							$req=json_decode($global_id->request_scenario,1);
 							$from_loc=$req['origin'];
 							$to_loc=$req['destination'];
-							$country_name_from=$this->Flight_model->getcountry_name($from_loc);
-							$country_name_to=$this->Flight_model->getcountry_name($to_loc);
+							$country_name_from=$this->Flight_Model->getcountry_name($from_loc);
+							$country_name_to=$this->Flight_Model->getcountry_name($to_loc);
 							
 							
 							//live

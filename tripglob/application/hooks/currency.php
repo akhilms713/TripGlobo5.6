@@ -30,6 +30,6 @@ class Currency{
         }
        // $ci->curr_val = $ci->general_model->get_currency_value($ci->display_currency);
         $ci->curr_val = 1;
-        $ci->curr_val_flag = $ci->General_model->get_currency_value_flag($ci->display_currency);
+        $ci->curr_val_flag = $ci->general_model->get_currency_value_flag($ci->display_currency);
     }
 }

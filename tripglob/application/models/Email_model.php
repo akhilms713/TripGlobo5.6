@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  use PHPMailer\PHPMailer\PHPMailer;
  use PHPMailer\PHPMailer\Exception;
-class Email_model extends CI_Model {
+class Email_Model extends CI_Model {
 	private $smtp;
 	private $host;
 	private $port;

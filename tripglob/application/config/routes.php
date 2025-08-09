@@ -64,10 +64,9 @@ $route['booking/(:any)'] = "booking/index/$1";
 $route['Flights'] = "home/inner_header/Flights";
 // $route['404_override'] ='error/page_missing';
 
-$host="127.0.0.1";
-$port=3306;
-$db_user="root";
-$db_password="rootpass";
+$host='54.90.219.162';//"localhost"; 
+$db_user='tripglobo';//"root";
+$db_password="Mobpass1!";
 $db="tripglobo_main";
 
 /*$db_user="root";
@@ -75,20 +74,20 @@ $db_password='';
 $db="tripgolobo";*/
 
 
-$conn = mysqli_connect($host, $db_user, $db_password, $db, $port);
 
-if (!$conn) {
-  die("Connection failed: " . mysqli_connect_error());
-}
-
+$conn = @mysql_connect($host,$db_user,$db_password) or die (mysql_error());
+//print_r($conn); die;
+mysql_select_db($db) or die (mysql_error());
 $sql = "SELECT * FROM static_pages";
-$query = mysqli_query($conn, $sql);
-
+$query = mysql_query($sql,$conn);
 if($query === FALSE) {
-  die("Query failed: " . mysqli_error($conn));
+    echo "afdsafdsf";
+    die("dfasdf"); // TODO: better error handling
 }
-while($row = mysqli_fetch_assoc($query)) {
-  $title = trim(str_replace(" ","-",$row['slug']));
-  $page_id = $row['id'];
-  $route[$title] = 'general/page/'.$title;
+
+while($row = mysql_fetch_array($query, MYSQL_ASSOC))
+{	
+	$title			=	trim(str_replace(" ","-",$row['slug']));
+	$page_id		=	$row['id'];
+	$route[$title] 	= 	'general/page/'.$title;
 }

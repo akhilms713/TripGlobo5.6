@@ -1,6 +1,6 @@
 <?php
 
-class Transfer_model extends CI_Model {
+class Transfer_Model extends CI_Model { 
 
     function __construct() {
         // Call the Model constructor

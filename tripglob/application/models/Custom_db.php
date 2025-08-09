@@ -7,7 +7,7 @@
  * @author     Arjun J<arjunjgowda260389@gmail.com>
  * @version    V2
  */
-Class Custom_db extends CI_Model
+Class Custom_Db extends CI_Model
 {
 	/**
 	 * get records from table using basic select

@@ -32,9 +32,9 @@ class Booking extends CI_Controller {
 
 		$this->load->model('payment_model');
 
-		$this->load->model('General_model');
+		$this->load->model('general_model');
 
-		$this->load->model('Flight_model');
+		$this->load->model('Flight_Model');
 
 		$this->load->model('xml_model');
 
@@ -397,7 +397,7 @@ class Booking extends CI_Controller {
 
 						if($search_module=='FLIGHT'){
 
-						    $data['airline_list'] = $this->Flight_model->get_airline_list();
+						    $data['airline_list'] = $this->Flight_Model->get_airline_list();
 
 						}
 
@@ -4314,7 +4314,7 @@ elseif($status_flag=="true"){
 
                        //  echo $bid;
 
-                        $this->Flight_model->Update_Booking_Global($bid, $update_booking, 'FLIGHT');
+                        $this->Flight_Model->Update_Booking_Global($bid, $update_booking, 'FLIGHT');
 
                       // echo 'update_booking'; print_r($update_booking); exit();
 

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class General_model extends CI_Model {
+class General_Model extends CI_Model {
 
 	public function get_currency_value($currency_code){
 		$currency_code_v1 = strtoupper($currency_code);

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Verification_model extends CI_Model {
+class Verification_Model extends CI_Model {
   public function getSMSalertList($user_id, $user_type) {
         $this->db->select('*');
         $this->db->from('user_sms_alert');

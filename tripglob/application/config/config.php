@@ -22,7 +22,7 @@
 | a PHP script and you can easily do that on your own.
 |
 */ //http://".$_SERVER['HTTP_HOST']."/t9x
-$config['base_url'] = "https://dev-tripglobo.dsocmarket.com/";
+$config['base_url'] = "http://localhost/tripglob/";
 
 
 /*
@@ -53,7 +53,7 @@ $config['index_page'] = '';
 | 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO
 |
 */
-$config['uri_protocol']	= 'REQUEST_URI';
+$config['uri_protocol']	= 'AUTO';
 
 /*
 |--------------------------------------------------------------------------
@@ -189,7 +189,7 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 1;
+$config['log_threshold'] = 0;
 
 /*
 |--------------------------------------------------------------------------
@@ -257,14 +257,8 @@ $config['sess_cookie_name']		= 'ci_session';
 $config['sess_expiration']		= 7200;
 $config['sess_expire_on_close']	= FALSE;
 $config['sess_encrypt_cookie']	= FALSE;
-$config['sess_driver'] = 'files';
-$config['sess_save_path'] = sys_get_temp_dir(); // or a writable folder like '/tmp'
-$config['sess_cookie_name'] = 'ci_session';
-$config['sess_expiration'] = 7200;
-$config['sess_save_path'] = NULL; // if using 'files' driver, set to writable directory
-$config['sess_match_ip'] = FALSE;
-$config['sess_time_to_update'] = 300;
-$config['sess_regenerate_destroy'] = FALSE;$config['sess_table_name']		= 'ci_sessions';
+$config['sess_use_database']	= FALSE;
+$config['sess_table_name']		= 'ci_sessions';
 $config['sess_match_ip']		= FALSE;
 $config['sess_match_useragent']	= TRUE;
 $config['sess_time_to_update']	= 300;

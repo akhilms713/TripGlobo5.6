@@ -63,7 +63,7 @@ class Ajax extends CI_Controller {
      * @param $zone_id
      */
     function get_country_list($continent_id = array(), $default_select = 0, $zone_id = 0) {
-        $this->load->model('General_model');
+        $this->load->model('general_model');
         $continent_id = urldecode($continent_id);
         if (intval($continent_id) != 0) {
             $option_list = $this->general_model->get_country_list($continent_id, $zone_id);

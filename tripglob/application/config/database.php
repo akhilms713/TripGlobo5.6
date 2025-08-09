@@ -49,11 +49,11 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = '127.0.0.1:3306';
-$db['default']['username'] = 'root';
-$db['default']['password'] = 'rootpass';
+$db['default']['hostname'] = '54.90.219.162';//'localhost';
+$db['default']['username'] = 'tripglobo';//'root';
+$db['default']['password'] = 'Mobpass1!';
 $db['default']['database'] = 'tripglobo_main';
-$db['default']['dbdriver'] = 'mysqli';
+$db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;

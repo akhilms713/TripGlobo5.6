@@ -10,14 +10,14 @@ error_reporting(0);
 class Booking extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('Cart_model');
-		$this->load->model('Booking_model');
-		$this->load->model('Hotel_model');
-		$this->load->model('Account_model');
-		$this->load->model('Payment_model');
-		$this->load->model('General_model');
-		$this->load->model('Flight_model');
-		$this->load->model('Xml_model');
+		$this->load->model('cart_model');
+		$this->load->model('booking_model');
+		$this->load->model('hotel_model');
+		$this->load->model('account_model');
+		$this->load->model('payment_model');
+		$this->load->model('general_model');
+		$this->load->model('Flight_Model');
+		$this->load->model('xml_model');
 		$this->load->helper('flight/amedus_helper');
 		$this->load->helper('flight/tbo_helper');
 	
@@ -202,7 +202,7 @@ class Booking extends CI_Controller {
 						$data['user_id'] = $user_id;
 						$data['userInfo'] =$this->general_model->get_user_details($user_id, $user_type);
 						$data['recent_billing'] =$this->booking_model->get_recent_billing_details($user_id, $user_type);
-						$data['airline_list'] = $this->Flight_model->get_airline_list();
+						$data['airline_list'] = $this->Flight_Model->get_airline_list();
 						//exit("test");
 						return $data;
 					}else{
@@ -1898,7 +1898,7 @@ elseif($status_flag=="true"){
                             'booking_status' => $BookingStatus
                         );
                        //  echo $bid;
-                        $this->Flight_model->Update_Booking_Global($bid, $update_booking, 'FLIGHT');
+                        $this->Flight_Model->Update_Booking_Global($bid, $update_booking, 'FLIGHT');
                       // echo 'update_booking'; print_r($update_booking); exit();
                         $LocatorCode=$update_booking['pnr_no'];
 
@@ -1927,8 +1927,8 @@ elseif($status_flag=="true"){
 							$req=json_decode($global_id->request_scenario,1);
 							$from_loc=$req['origin'];
 							$to_loc=$req['destination'];
-							$country_name_from=$this->Flight_model->getcountry_name($from_loc);
-							$country_name_to=$this->Flight_model->getcountry_name($to_loc);
+							$country_name_from=$this->Flight_Model->getcountry_name($from_loc);
+							$country_name_to=$this->Flight_Model->getcountry_name($to_loc);
 
 
 

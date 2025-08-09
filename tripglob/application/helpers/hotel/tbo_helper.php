@@ -4,7 +4,7 @@ function set_credentials_hotel($api){
     // debug($api);exit;
     $CI = & get_instance();
     $api_usage = "LIVE";
-    $CI->load->model('General_model');
+    $CI->load->model('General_Model');         
     $query = $CI->General_Model->get_api($api, $api_usage);
     if ($query->num_rows() == 0) {
         $data['set_credentials'] = FALSE;

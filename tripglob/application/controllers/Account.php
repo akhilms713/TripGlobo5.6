@@ -4,7 +4,7 @@ ob_start();
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 if (session_status() == PHP_SESSION_NONE) {
-    //$this->load->library('session');
+    session_start();
 }
 error_reporting(0);
 

@@ -2,7 +2,7 @@
 ob_start();
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 if (session_status() == PHP_SESSION_NONE) {
-//	$this->load->library('session');
+    session_start();
 }
 	error_reporting(0);
  //error_reporting(E_ALL);
@@ -27,10 +27,10 @@ class Dashboard extends CI_Controller {
 		$this->load->model('account_model');
 		$this->load->model('support_model');
 		$this->load->model('cart_model');
-		$this->load->model('Flight_model');
+		$this->load->model('Flight_Model'); 
 		$this->load->model('booking_model');  
         $this->load->model('email_model');    
-		$this->load->model('General_model');
+		$this->load->model('general_model');
 		$this->load->library('New_Ajax');
         $this->perPage = 5;
 		if (!$this->session->userdata('user_id')) {

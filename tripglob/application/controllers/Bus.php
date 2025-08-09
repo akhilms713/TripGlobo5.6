@@ -10,9 +10,9 @@ class Bus extends CI_Controller {
     $this->load->helper('bus/tbo');
     $this->load->helper('bus/date_helper');
     $this->load->model('bus_model');
-    $this->load->model('home_model');
+    $this->load->model('Home_Model');
     $this->load->model('general_model');
-    $this->load->library('encryption');
+    $this->load->library('encrypt');
     $this->load->library('session');
     $this->load->library('pagination');
     }

@@ -39,7 +39,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 /* Customized Constants */
 define('PROJECT_NAME',				''); // IF server make it empty
 define('PROJECT_TITLE',				'TripGlobo');
-define('PROJECT_URL',				'https://dev-tripglobo.dsocmarket.com/');
+define('PROJECT_URL',				'https://www.tripglobo.com/');
 define('PROJECT_THEME',				'theme_dark');
 define('ENCRYPTION_KEY',			'786$&GH&%!@');
 /*define('BASE_CURRENCY_ICON',		'$');
@@ -50,14 +50,14 @@ define('BASE_CURRENCY_CODE',		'INR');
 define('BASE_CURRENCY_ICON',		'INR');
 define('BASE_CURRENCY',				'INR');
 
-define('SSL_TLL',					'https://');
-define('ASSETS',					SSL_TLL.$_SERVER['HTTP_HOST'].'/assets/'.PROJECT_THEME.'/');
-define('BASE_URL',					SSL_TLL.$_SERVER['HTTP_HOST'].'/');
+define('SSL_TLL',					'http://');
+define('ASSETS',					SSL_TLL.$_SERVER['HTTP_HOST'].'/tripglob/assets/'.PROJECT_THEME.'/');
+define('BASE_URL',					SSL_TLL.$_SERVER['HTTP_HOST'].'/tripglob/'); 
 define('ADMIN_ASSETS',				SSL_TLL.$_SERVER['HTTP_HOST'].'/admin-panel/assets/');
-define('WEB_URL',					SSL_TLL.$_SERVER['HTTP_HOST'].'/');
-define('UPLOAD_PATH',				SSL_TLL.$_SERVER['HTTP_HOST'].'/photo/');
-define('IMG_URL',					SSL_TLL.$_SERVER['HTTP_HOST'].'/admin-panel/uploads/');
-define('FRONT_UPLOAD',				SSL_TLL.$_SERVER['HTTP_HOST'].'/application/uploads/');
+define('WEB_URL',					SSL_TLL.$_SERVER['HTTP_HOST'].'/tripglob/');
+define('UPLOAD_PATH',				SSL_TLL.$_SERVER['HTTP_HOST'].'/tripglob/photo/');
+define('IMG_URL',					SSL_TLL.$_SERVER['HTTP_HOST'].'/tripglob/admin-panel/uploads/');
+define('FRONT_UPLOAD',				SSL_TLL.$_SERVER['HTTP_HOST'].'/tripglob/application/uploads/');
 define('B2C',						'ACTIVE');
 define('B2B',						'ACTIVE');
 define('HOTEL',						'ACTIVE');

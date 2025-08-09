@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Cart_model extends CI_Model {
+class Cart_Model extends CI_Model {
 
   public function getBookingTemp($session_id){
         $this->db->where('session_id',$session_id);

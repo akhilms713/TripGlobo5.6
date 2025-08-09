@@ -4,7 +4,7 @@ ob_start();
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 if (session_status() == PHP_SESSION_NONE) {
-  //  $this->load->library('session');
+    session_start();
 }
 error_reporting(0);
 
@@ -18,14 +18,14 @@ class FLight extends CI_Controller {
         $url = array('continue' => $current_url);
         $this->perPage = 100000;
         $this->session->set_userdata($url);
-        $this->load->model('home_Model');
-        $this->load->model('Flight_model');
+        $this->load->model('Home_Model');
+        $this->load->model('Flight_Model');
         $this->load->model('cart_model');
         $this->load->model('booking_model');
         $this->load->model('email_model');
-        $this->load->library('encryption');
+        $this->load->library('encrypt');
         $this->load->library('session');
-        $this->load->library('amedus_xml_to_array');
+        $this->load->library('flight/amedus_xml_to_array');
         $this->load->library('flight/xml_to_array');
         $this->load->library('Ajax_pagination');
         $this->load->helper('flight/amedus_helper');
@@ -150,10 +150,10 @@ class FLight extends CI_Controller {
                 $return_date = '&return_date=' . $request['return'];
             }
             $from_aircode = substr(chop(substr($request['from'], -5), ')'), -3);
-            $country_name = $this->Flight_model->getcountry_name($from_aircode);
+            $country_name = $this->Flight_Model->getcountry_name($from_aircode);
             $from_country = $country_name->country;
             $to_aircode = substr(chop(substr($request['to'], -5), ')'), -3);
-            $country_name = $this->Flight_model->getcountry_name($to_aircode);
+            $country_name = $this->Flight_Model->getcountry_name($to_aircode);
             $to_country = $country_name->country;
 
 
@@ -249,11 +249,11 @@ class FLight extends CI_Controller {
         }
         $data['request'] = $search_request = json_decode(base64_decode($Req_before_decode));
         $rand_id = md5(time() . rand() . crypt(time()));
-        $xml_response = $this->Flight_model->insertInputParameters($search_request, $rand_id);
+        $xml_response = $this->Flight_Model->insertInputParameters($search_request, $rand_id);
         $session_data_main = $data['session_data'] = $session_data = $this->generate_rand_no() . date("mdHis");
         //$session_data_main= $data['session_data'] = $session_data ="GSGORC134B0ZWWSI9NPZOHSN0604215359";
         $api_name = "";
-        $active_api = $this->Flight_model->get_api_list_flight();
+        $active_api = $this->Flight_Model->get_api_list_flight();
         // debug($active_api);exit;
         for ($ai = 0; $ai < count($active_api); $ai++) {
             $api_name = $active_api[$ai]->api_name; 
@@ -320,7 +320,7 @@ class FLight extends CI_Controller {
                 $dataresult['session_data'] = $session_data_main;
                 //echo "ss"; print_r($dataresult['session_data']);die();
                 // debug('here3');
-                $this->Flight_model->save_result($results, $session_data, $search_request, $api_name);
+                $this->Flight_Model->save_result($results, $session_data, $search_request, $api_name);
                 // exit; 
             } elseif ($api_name == 'TBO') {
                 // error_reporting(E_ALL);
@@ -333,11 +333,11 @@ class FLight extends CI_Controller {
                // debug($results);exit;
                 $dataresult['session_data'] = $session_data_main;
                 
-                $this->Flight_model->save_result_tbo($results, $session_data, $search_request, $api_name);
+                $this->Flight_Model->save_result_tbo($results, $session_data, $search_request, $api_name);
             }
         }
-        $flight_data = $this->Flight_model->get_last_response_data($session_data);
-        $flight_data1 = $this->Flight_model->get_arival_data_data($session_data);
+        $flight_data = $this->Flight_Model->get_last_response_data($session_data);
+        $flight_data1 = $this->Flight_Model->get_arival_data_data($session_data);
         // debug($flight_data);exit;
 
        // debug($data['request']);exit;
@@ -398,7 +398,7 @@ class FLight extends CI_Controller {
         $airline_data_valied[]=$airlinematrix->airline;
         }
         // debug($airlinematrixdata);exit;
-        $data['flight_result'] = $this->Flight_model->get_last_response($session_data, array('limit' => $this->perPage));
+        $data['flight_result'] = $this->Flight_Model->get_last_response($session_data, array('limit' => $this->perPage));
         if (!$data['flight_result']) {
             $data['message'] = "No Result Found";
         }
@@ -533,7 +533,7 @@ class FLight extends CI_Controller {
                         $flightDetails1[$flightId]['Flight'][$i]['timeOfArrival'][$j] = $arrivalTime = $FlightSegment[$j]['flightInformation']['productDateTime']['timeOfArrival'];
                         $flightDetails1[$flightId]['Flight'][$i]['flightOrtrainNumber'][$j] = $FlightSegment[$j]['flightInformation']['flightOrtrainNumber'];
                         $flightDetails1[$flightId]['Flight'][$i]['marketingCarrier'][$j] = $FlightSegment[$j]['flightInformation']['companyId']['marketingCarrier'];
-                        $flightDetails1[$flightId]['Flight'][$i]['airlineName'][$j] = $this->Flight_model->get_airline_name($FlightSegment[$j]['flightInformation']['companyId']['marketingCarrier']);
+                        $flightDetails1[$flightId]['Flight'][$i]['airlineName'][$j] = $this->Flight_Model->get_airline_name($FlightSegment[$j]['flightInformation']['companyId']['marketingCarrier']);
 
                         $flightDetails1[$flightId]['Flight'][$i]['DepartureDate'][$j] = ((substr("$departureDate", 0, -4)) . "-" . (substr("$departureDate", -4, 2)) . "-20" . (substr("$departureDate", -2)));
                         $flightDetails1[$flightId]['Flight'][$i]['ArrivalDate'][$j] = ((substr("$arrivalDate", 0, -4)) . "-" . (substr("$arrivalDate", -4, 2)) . "-20" . (substr("$arrivalDate", -2)));
@@ -582,15 +582,15 @@ class FLight extends CI_Controller {
                         $flightDetails1[$flightId]['Flight'][$i]['locationIdDeparture'][$j] = $FlightSegment[$j]['flightInformation']['location'][0]['locationId'];
                         $flightDetails1[$flightId]['Flight'][$i]['locationIdArival'][$j] = $FlightSegment[$j]['flightInformation']['location'][1]['locationId'];
 
-                        $dep_name = $this->Flight_model->get_airport_cityname($flightDetails1[$flightId]['Flight'][$i]['locationIdDeparture'][$j]);
-                        $arr_name = $this->Flight_model->get_airport_cityname($flightDetails1[$flightId]['Flight'][$i]['locationIdArival'][$j]);
+                        $dep_name = $this->Flight_Model->get_airport_cityname($flightDetails1[$flightId]['Flight'][$i]['locationIdDeparture'][$j]);
+                        $arr_name = $this->Flight_Model->get_airport_cityname($flightDetails1[$flightId]['Flight'][$i]['locationIdArival'][$j]);
                         if (isset($flightDetails1[$flightId]['Flight'][$i]['DepartureAirport'][$j]))
                             $flightDetails1[$flightId]['Flight'][$i]['DepartureAirport'][$j] = $dep_name->city . ", " . $dep_name->country . " (" . $dep_name->city_code . ")";
                         if (isset($flightDetails1[$flightId]['Flight'][$i]['ArrivalAirport'][$j]))
                             $flightDetails1[$flightId]['Flight'][$i]['ArrivalAirport'][$j] = $arr_name->city . ", " . $arr_name->country . " (" . $arr_name->city_code . ")";
 
-                        $dep_time_zone_offset = $this->Flight_model->get_time_zone_details($flightDetails1[$flightId]['Flight'][$i]['locationIdDeparture'][$j]);
-                        $arv_time_zone_offset = $this->Flight_model->get_time_zone_details($flightDetails1[$flightId]['Flight'][$i]['locationIdArival'][$j]);
+                        $dep_time_zone_offset = $this->Flight_Model->get_time_zone_details($flightDetails1[$flightId]['Flight'][$i]['locationIdDeparture'][$j]);
+                        $arv_time_zone_offset = $this->Flight_Model->get_time_zone_details($flightDetails1[$flightId]['Flight'][$i]['locationIdArival'][$j]);
                         $flightDetails1[$flightId]['Flight'][$i]['dep_time_zone_offset'][$j] = $dep_time_zone_offset;
                         $flightDetails1[$flightId]['Flight'][$i]['arv_time_zone_offset'][$j] = $arv_time_zone_offset;
 
@@ -1049,7 +1049,7 @@ class FLight extends CI_Controller {
     }
 
     function call_iternary($idval) {
-        $data['result'] = $this->Flight_model->get_flight_data_segments($idval);
+        $data['result'] = $this->Flight_Model->get_flight_data_segments($idval);
         $data['request_scenario'] = json_decode($data['result']->request_scenario);
         $data['idval'] = $idval;
         $segment_data = $data['result']->segment_data;
@@ -1087,7 +1087,7 @@ class FLight extends CI_Controller {
     /* Tbo New start */
 
     function call_iternary_t($idval) {
-        $data['result'] = $this->Flight_model->get_flight_data_segments($idval);
+        $data['result'] = $this->Flight_Model->get_flight_data_segments($idval);
         // debug($data);exit;
         $data['request_scenario'] = json_decode($data['result']->request_scenario);
         $data['idval'] = $idval;
@@ -1134,12 +1134,12 @@ class FLight extends CI_Controller {
             $uid = $uid_v1->id;
             $session_id = $uid_v1->sessionid;
             $fareBasis = $uid_v1->fareBasis;
-            $result = $this->Flight_model->get_flight_data_segments($uid);
+            $result = $this->Flight_Model->get_flight_data_segments($uid);
             $pricedetails=json_decode($result->PricingDetails);
             // debug($result);die;
             if ($result != '') {
                 $RoutingId = $result->routing_id;
-                $this->Flight_model->insert_flight_data_segments_to_query_table($result->segment_data);
+                $this->Flight_Model->insert_flight_data_segments_to_query_table($result->segment_data);
                 $segment_data = json_decode($result->segment_data, 1);
 
                 // echo "<pre/>";
@@ -1190,10 +1190,10 @@ class FLight extends CI_Controller {
                     'session_id' => $session_id,
                     'origin' => $result->origin,
                     'destination' => $result->destination,
-                    'origin_city' => $this->Flight_model->get_airport_cityname($result->origin),
-                    'destination_city' => $this->Flight_model->get_airport_cityname($result->destination),
-                    'origin_airport' => $this->Flight_model->get_airport_name($result->origin),
-                    'destination_airport' => $this->Flight_model->get_airport_name($result->destination),
+                    'origin_city' => $this->Flight_Model->get_airport_cityname($result->origin),
+                    'destination_city' => $this->Flight_Model->get_airport_cityname($result->destination),
+                    'origin_airport' => $this->Flight_Model->get_airport_name($result->origin),
+                    'destination_airport' => $this->Flight_Model->get_airport_name($result->destination),
                     'mode' => $result->trip_type,
                     'outward_departure' => $out_DepartDate,
                     'outward_arrival' => $out_ArriveDate,
@@ -1222,11 +1222,11 @@ class FLight extends CI_Controller {
                 );
 
                 if ($result->bundle_search_id != '' || $result->bundle_search_id == 0) {
-                    $booking_cart_id = $this->Flight_model->delete_cart_flight($result->bundle_search_id);
+                    $booking_cart_id = $this->Flight_Model->delete_cart_flight($result->bundle_search_id);
                 }
 
                 	// echo "<pre/>";print_r($cart_flight);exit("1185");
-                $booking_cart_id = $this->Flight_model->insert_cart_flight($cart_flight);
+                $booking_cart_id = $this->Flight_Model->insert_cart_flight($cart_flight);
 
                 if ($this->session->userdata('user_id')) {
                     $user_type = $this->session->userdata('user_type');
@@ -1249,9 +1249,9 @@ class FLight extends CI_Controller {
                     'timestamp' => date('Y-m-d H:i:s')
                 );
                 if ($result->bundle_search_id != '' || $result->bundle_search_id == 0) {
-                    $booking_cart_id = $this->Flight_model->delete_cart_global($result->bundle_search_id);
+                    $booking_cart_id = $this->Flight_Model->delete_cart_global($result->bundle_search_id);
                 }
-                $cart_global_id = $this->Flight_model->insert_cart_global($cart_global);
+                $cart_global_id = $this->Flight_Model->insert_cart_global($cart_global);
                 /* $request = $this->custom_db->single_table_records('search_history', '', array('origin' => $result->bundle_search_id));
                   $fs = json_decode($request['data'][0]['search_data'], true);
                  */
@@ -1272,7 +1272,7 @@ class FLight extends CI_Controller {
             $uid = $uid_v1->id;
             $session_id = $uid_v1->sessionid;
             $fareBasis = $uid_v1->fareBasis;
-            $result['data'] = $this->Flight_model->get_flight_data_segments($uid);
+            $result['data'] = $this->Flight_Model->get_flight_data_segments($uid);
             if (!empty($result['data'])) {
                 if ($result['data']->type == 'onward') {   
                     unset($_SESSION['this_form']);                  
@@ -1291,7 +1291,7 @@ class FLight extends CI_Controller {
                  } 
                 $uid=array($_SESSION['this_form']['uid'],$_SESSION['this_to']['uid']);
             unset($result['data']); 
-            $result['onward'] = $this->Flight_model->get_flight_data_segments_r($uid);
+            $result['onward'] = $this->Flight_Model->get_flight_data_segments_r($uid);
             }
             $result['search_id'] =$uid_v1->search_id;
             // debug($result);die;
@@ -1310,14 +1310,14 @@ class FLight extends CI_Controller {
             $uid = $uid_v1->id;
             $session_id = $uid_v1->sessionid;
             $fareBasis = $uid_v1->fareBasis;
-            $results = $this->Flight_model->get_flight_data_segments_f($uid);
+            $results = $this->Flight_Model->get_flight_data_segments_f($uid);
             // debug($results);exit;
             if (is_array($results)) {
                 foreach ($results as $key => $result) {                    
                 // debug($results);exit;
                 $pricedetails=json_decode($result->PricingDetails);                
                     $RoutingId = $result->routing_id;
-                    $this->Flight_model->insert_flight_data_segments_to_query_table($result->segment_data);
+                    $this->Flight_Model->insert_flight_data_segments_to_query_table($result->segment_data);
                     $segment_data = json_decode($result->segment_data, 1);                    
                     if ($result->api_name == 'AMADEUS') {
                         $api_id = 1;
@@ -1362,10 +1362,10 @@ class FLight extends CI_Controller {
                         'session_id' => $session_id[$key],
                         'origin' => $result->origin,
                         'destination' => $result->destination,
-                        'origin_city' => $this->Flight_model->get_airport_cityname($result->origin),
-                        'destination_city' => $this->Flight_model->get_airport_cityname($result->destination),
-                        'origin_airport' => $this->Flight_model->get_airport_name($result->origin),
-                        'destination_airport' => $this->Flight_model->get_airport_name($result->destination),
+                        'origin_city' => $this->Flight_Model->get_airport_cityname($result->origin),
+                        'destination_city' => $this->Flight_Model->get_airport_cityname($result->destination),
+                        'origin_airport' => $this->Flight_Model->get_airport_name($result->origin),
+                        'destination_airport' => $this->Flight_Model->get_airport_name($result->destination),
                         'mode' => $result->trip_type,
                         'outward_departure' => $out_DepartDate,
                         'outward_arrival' => $out_ArriveDate,
@@ -1394,12 +1394,12 @@ class FLight extends CI_Controller {
                     );
                     if ($key==0) {                        
                     if ($result->bundle_search_id != '' || $result->bundle_search_id == 0) {
-                        $booking_cart_id = $this->Flight_model->delete_cart_flight($result->bundle_search_id);
+                        $booking_cart_id = $this->Flight_Model->delete_cart_flight($result->bundle_search_id);
                     }
                     }
 
                         // echo "<pre/>";print_r($cart_flight);exit("1185");
-                    $booking_cart_id = $this->Flight_model->insert_cart_flight($cart_flight);
+                    $booking_cart_id = $this->Flight_Model->insert_cart_flight($cart_flight);
 
                     if ($this->session->userdata('user_id')) {
                         $user_type = $this->session->userdata('user_type');
@@ -1423,10 +1423,10 @@ class FLight extends CI_Controller {
                     );
                     if ($key==0) {                        
                         if ($result->bundle_search_id != '' || $result->bundle_search_id == 0) {
-                            $booking_cart_id = $this->Flight_model->delete_cart_global($result->bundle_search_id);
+                            $booking_cart_id = $this->Flight_Model->delete_cart_global($result->bundle_search_id);
                         }
                     }
-                    $cart_global_id = $this->Flight_model->insert_cart_global($cart_global);
+                    $cart_global_id = $this->Flight_Model->insert_cart_global($cart_global);
                     /* $request = $this->custom_db->single_table_records('search_history', '', array('origin' => $result->bundle_search_id));
                       $fs = json_decode($request['data'][0]['search_data'], true);
                      */
@@ -1546,7 +1546,7 @@ class FLight extends CI_Controller {
             }
         } 
 
-        $airline_filter1=$this->Flight_model->airline_code_gen($airline_filter);
+        $airline_filter1=$this->Flight_Model->airline_code_gen($airline_filter);
         // debug($airline_filter1);exit();
         // debug($this->db->last_query());exit();
         $cond = array('amount_filter' => $amount_filter,
@@ -1566,11 +1566,11 @@ class FLight extends CI_Controller {
 
 
         // debug($cond);die;
-        $totalRec = $this->Flight_model->get_last_response_count($session_data, $cond);
+        $totalRec = $this->Flight_Model->get_last_response_count($session_data, $cond);
         $data['flight_count'] = $totalRec;
 
         //debug($this->db->last_query()); die;
-        $flight_data = $this->Flight_model->get_last_response_data($session_data,$cond);
+        $flight_data = $this->Flight_Model->get_last_response_data($session_data,$cond);
         // debug($flight_data);die;
 
 
@@ -1586,7 +1586,7 @@ class FLight extends CI_Controller {
         $this->ajax_pagination->initialize($config);
 
         //get the posts data
-        $data['flight_result'] = $this->Flight_model->get_last_response_filter($session_data, array('start' => $offset, 'limit' => $this->perPage), $cond);
+        $data['flight_result'] = $this->Flight_Model->get_last_response_filter($session_data, array('start' => $offset, 'limit' => $this->perPage), $cond);
 
 // debug($data);exit;
 	   // echo '<pre>';print_r($data['flight_result']);exit;
@@ -1667,7 +1667,7 @@ class FLight extends CI_Controller {
     }
 
     function flight_deal($id) {
-        $flight_deals = $this->Flight_model->get_flight_data_deals($id);
+        $flight_deals = $this->Flight_Model->get_flight_data_deals($id);
         $from_air = explode('(', $flight_deals[0]->deal_from_place);
         $to_air = explode('(', $flight_deals[0]->deal_to_place);
 
@@ -1750,7 +1750,7 @@ class FLight extends CI_Controller {
                         $flightDetails1[$flightId]['Flight'][$i]['timeOfArrival'][$j] = $arrivalTime = $FlightSegment[$j]['flightInformation']['productDateTime']['timeOfArrival'];
                         $flightDetails1[$flightId]['Flight'][$i]['flightOrtrainNumber'][$j] = $FlightSegment[$j]['flightInformation']['flightOrtrainNumber'];
                         $flightDetails1[$flightId]['Flight'][$i]['marketingCarrier'][$j] = $FlightSegment[$j]['flightInformation']['companyId']['marketingCarrier'];
-                        $flightDetails1[$flightId]['Flight'][$i]['airlineName'][$j] = $this->Flight_model->get_airline_name($FlightSegment[$j]['flightInformation']['companyId']['marketingCarrier']);
+                        $flightDetails1[$flightId]['Flight'][$i]['airlineName'][$j] = $this->Flight_Model->get_airline_name($FlightSegment[$j]['flightInformation']['companyId']['marketingCarrier']);
 
                         $flightDetails1[$flightId]['Flight'][$i]['DepartureDate'][$j] = ((substr("$departureDate", 0, -4)) . "-" . (substr("$departureDate", -4, 2)) . "-20" . (substr("$departureDate", -2)));
                         $flightDetails1[$flightId]['Flight'][$i]['ArrivalDate'][$j] = ((substr("$arrivalDate", 0, -4)) . "-" . (substr("$arrivalDate", -4, 2)) . "-20" . (substr("$arrivalDate", -2)));
@@ -1797,15 +1797,15 @@ class FLight extends CI_Controller {
                         $flightDetails1[$flightId]['Flight'][$i]['locationIdDeparture'][$j] = $FlightSegment[$j]['flightInformation']['location'][0]['locationId'];
                         $flightDetails1[$flightId]['Flight'][$i]['locationIdArival'][$j] = $FlightSegment[$j]['flightInformation']['location'][1]['locationId'];
 
-                        $dep_name = $this->Flight_model->get_airport_cityname($flightDetails1[$flightId]['Flight'][$i]['locationIdDeparture'][$j]);
-                        $arr_name = $this->Flight_model->get_airport_cityname($flightDetails1[$flightId]['Flight'][$i]['locationIdArival'][$j]);
+                        $dep_name = $this->Flight_Model->get_airport_cityname($flightDetails1[$flightId]['Flight'][$i]['locationIdDeparture'][$j]);
+                        $arr_name = $this->Flight_Model->get_airport_cityname($flightDetails1[$flightId]['Flight'][$i]['locationIdArival'][$j]);
                         if (isset($flightDetails1[$flightId]['Flight'][$i]['DepartureAirport'][$j]))
                             $flightDetails1[$flightId]['Flight'][$i]['DepartureAirport'][$j] = $dep_name->city . ", " . $dep_name->country . " (" . $dep_name->city_code . ")";
                         if (isset($flightDetails1[$flightId]['Flight'][$i]['ArrivalAirport'][$j]))
                             $flightDetails1[$flightId]['Flight'][$i]['ArrivalAirport'][$j] = $arr_name->city . ", " . $arr_name->country . " (" . $arr_name->city_code . ")";
 
-                        $dep_time_zone_offset = $this->Flight_odel->get_time_zone_details($flightDetails1[$flightId]['Flight'][$i]['locationIdDeparture'][$j]);
-                        $arv_time_zone_offset = $this->Flight_model->get_time_zone_details($flightDetails1[$flightId]['Flight'][$i]['locationIdArival'][$j]);
+                        $dep_time_zone_offset = $this->Flight_Model->get_time_zone_details($flightDetails1[$flightId]['Flight'][$i]['locationIdDeparture'][$j]);
+                        $arv_time_zone_offset = $this->Flight_Model->get_time_zone_details($flightDetails1[$flightId]['Flight'][$i]['locationIdArival'][$j]);
                         $flightDetails1[$flightId]['Flight'][$i]['dep_time_zone_offset'][$j] = $dep_time_zone_offset;
                         $flightDetails1[$flightId]['Flight'][$i]['arv_time_zone_offset'][$j] = $arv_time_zone_offset;
 
@@ -2080,7 +2080,7 @@ class FLight extends CI_Controller {
         $data['user_id'] = $user_id = $this->session->userdata('user_id');
         $data['user_type'] = $user_type = $this->session->userdata('user_type');
         $data['userInfo'] = $this->general_model->get_user_details($user_id, $user_type);
-        $data['group_report'] = $this->Flight_model->get_group_booking_agent();
+        $data['group_report'] = $this->Flight_Model->get_group_booking_agent();
         $this->load->view(PROJECT_THEME . '/dashboard/dashboard_group_enquiry', $data);
     }
 
@@ -2147,10 +2147,10 @@ class FLight extends CI_Controller {
         $return_date = '&return_date=' . $request['return'];
 
         $from_aircode = substr(chop(substr($request['from'], -5), ')'), -3);
-        $country_name = $this->Flight_model->getcountry_name($from_aircode);
+        $country_name = $this->Flight_Model->getcountry_name($from_aircode);
         $from_country = $country_name->country;
         $to_aircode = substr(chop(substr($request['to'], -5), ')'), -3);
-        $country_name = $this->Flight_model->getcountry_name($to_aircode);
+        $country_name = $this->Flight_Model->getcountry_name($to_aircode);
         $to_country = $country_name->country;
 
 

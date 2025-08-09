@@ -26,8 +26,8 @@
     function set_credentials() {
         $CI = & get_instance();
         $api_usage = "TEST";
-        // $CI->load->model('General_model');
-        // $query = $CI->General_model->get_api($api, $api_usage);
+        // $CI->load->model('General_Model');         
+        // $query = $CI->General_Model->get_api($api, $api_usage);
         if ($query->num_rows() == 0) {
             $data['set_credentials'] = FALSE;
         } else {              

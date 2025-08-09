@@ -2,7 +2,7 @@
 ob_start();
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 if (session_status() == PHP_SESSION_NONE) {
- // $this->load->library('session');
+    session_start();
 }
 class Payment_gateway extends CI_Controller {
 	public function __construct(){
@@ -16,7 +16,7 @@ $datas=$this->db->get_where('payment_gateway_details',array('id'=>$id))->row_arr
 
 // debug($datas);exit;
 
-  $this->load->library('session');
+session_start();
 $key="gtKFFx";
 $salt="4R38IvwiV57FwVpsgOvTXBdLE4tHUXFW";
 $action = 'https://test.payu.in/_payment';

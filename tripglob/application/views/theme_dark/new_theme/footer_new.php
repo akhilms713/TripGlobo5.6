@@ -103,11 +103,11 @@
    </div>
    -->
 <?php $ci =& get_instance();
-   $ci->load->model('General_model');
+   $ci->load->model('General_Model');
    $spcialdata= $ci->General_Model->socialiconfunction(); 
-   // $imp_link= $ci->General_model->get_important_links();
+   // $imp_link= $ci->General_Model->get_important_links(); 
    $imp_link= $ci->General_Model->footer_details_db(); 
-   //$data['spcialdata'] = $this->General_model;
+   //$data['spcialdata'] = $this->General_Model;
    // echo "<pre>";print_r($imp_link); exit('pankaj');
 
     $ci->load->model('flight_model');

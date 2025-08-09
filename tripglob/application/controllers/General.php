@@ -1,19 +1,17 @@
 <?php
 ob_start();
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-if (session_status() == PHP_SESSION_NONE) {
-  //$this->load->library('session');
-}
+if (session_status() == PHP_SESSION_NONE) { session_start(); }
 // error_reporting(0);
 class General extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('flight_model');
-        $this->load->model('home_model');
-        $this->load->model('account_model');
-        $this->load->model('general_model');
-        $this->load->model('booking_model');
+        $this->load->model('Flight_Model');
+        $this->load->model('Home_Model');
+        $this->load->model('Account_Model');
+        $this->load->model('General_Model');
+        $this->load->model('Booking_Model');
         $this->load->library('currency_converter');
     }
         
@@ -158,11 +156,11 @@ class General extends CI_Controller {
     }
     function get_flight_suggestions(){
             $term = trim(strip_tags($this->input->get('term')));
-            $rsa = $this->Flight_model->getAirportcitylist($term);
-            $rsa1 = $this->Flight_model->getAirportcodelist($term);
+            $rsa = $this->Flight_Model->getAirportcitylist($term);
+            $rsa1 = $this->Flight_Model->getAirportcodelist($term);
             if(count($rsa)!=0){
                   for ($i=0; $i < count($rsa); $i++) {    
-                      $rss = $this->Flight_model->getAirportlist($rsa[$i]->city_code);
+                      $rss = $this->Flight_Model->getAirportlist($rsa[$i]->city_code);
                       for($rs=0;$rs<count($rss);$rs++){
                           $data['label']  = $rss[$rs]->airport_city.', '.$rss[$rs]->airport_name."  (".$rss[$rs]->airport_code.")      ".$rss[$rs]->country;    
                           $data['value']  = $rss[$rs]->airport_city.' ('.$rss[$rs]->airport_code.')';
@@ -329,7 +327,7 @@ class General extends CI_Controller {
     //################## Air line List suggestions 6088 ########################
     function get_airline_suggestions(){
             $term = trim(strip_tags($this->input->get('term')));
-            $rsa1 = $this->Flight_model->get_airline_list_suggestions($term);
+            $rsa1 = $this->Flight_Model->get_airline_list_suggestions($term);
             if(count($rsa1)!=0)
             {
                 for ($i=0; $i < count($rsa1); $i++) {    

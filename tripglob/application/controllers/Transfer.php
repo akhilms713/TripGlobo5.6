@@ -4,7 +4,7 @@ ob_start();
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 if (session_status() == PHP_SESSION_NONE) {
- // $this->load->library('session');
+    session_start();
 }
 error_reporting(0);
 
@@ -19,7 +19,7 @@ class Transfer extends CI_Controller {
         $this->load->model('Home_Model');
         $this->load->model('Transfer_Model');
         $this->load->model('cart_model');
-        $this->load->library('encryption');
+        $this->load->library('encrypt');
         $this->load->library('session');
         $this->load->model('booking_model'); 
         $this->load->helper('flight/tbo_helper'); 

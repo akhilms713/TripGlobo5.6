@@ -4,7 +4,7 @@ ob_start();
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 if (session_status() == PHP_SESSION_NONE) {
- // $this->load->library('session');
+    session_start();
 }
 error_reporting(0);
 
@@ -16,10 +16,10 @@ class Insurance extends CI_Controller {
         $url = array('continue' => $current_url);
         $this->perPage = 100000;
         $this->session->set_userdata($url);
-        $this->load->model('home_Model');
-        $this->load->model('insurance_model');
+        $this->load->model('Home_Model');
+        $this->load->model('Insurance_model');
         $this->load->model('cart_model');
-        $this->load->library('encryption');
+        $this->load->library('encrypt');
         $this->load->library('session');
         $this->load->model('booking_model');
         $this->load->model('custom_db'); 
