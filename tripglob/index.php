@@ -80,7 +80,8 @@ $conn = mysqli_connect($host, $db_user, $db_password, $db, $port);
 if (!$conn) {
   die("Connection failed: " . mysqli_connect_error());
 }
-exit;
+
+var_dump($conn); exit;
 switch (ENVIRONMENT)
 {
 	case 'development':
